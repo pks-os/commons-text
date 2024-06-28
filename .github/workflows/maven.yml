@@ -27,14 +27,14 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        java: [ 11, 17, 21, 22 ]
+        java: [ 8, 11, 17, 21, 22 ]
         experimental: [false]
         include:
           - java: 23-ea
             experimental: true
 
     steps:
-    - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       with:
         persist-credentials: false
     - name: Set up JDK ${{ matrix.java }}
@@ -44,4 +44,4 @@ jobs:
         java-version: ${{ matrix.java }}
         cache: 'maven'
     - name: Build with Maven
-      run: mvn --show-version --batch-mode --no-transfer-progress -Dpolyglot.engine.WarnInterpreterOnly=false
+      run: mvn --errors --show-version --batch-mode --no-transfer-progress -Dpolyglot.engine.WarnInterpreterOnly=false
