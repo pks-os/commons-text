@@ -459,7 +459,7 @@ public class StringSubstitutor {
     /**
      * The flag whether exception should be thrown on undefined variable.
      */
-    private boolean enableUndefinedVariableException;
+    private boolean failOnUndefinedVariable;
 
     /**
      * Stores the escape character.
@@ -641,7 +641,7 @@ public class StringSubstitutor {
     public StringSubstitutor(final StringSubstitutor other) {
         disableSubstitutionInValues = other.isDisableSubstitutionInValues();
         enableSubstitutionInVariables = other.isEnableSubstitutionInVariables();
-        enableUndefinedVariableException = other.isEnableUndefinedVariableException();
+        failOnUndefinedVariable = other.isEnableUndefinedVariableException();
         escapeChar = other.getEscapeChar();
         prefixMatcher = other.getVariablePrefixMatcher();
         preserveEscapes = other.isPreserveEscapes();
@@ -675,7 +675,7 @@ public class StringSubstitutor {
      * @return The character used for escaping variable references
      */
     public char getEscapeChar() {
-        return this.escapeChar;
+        return escapeChar;
     }
 
     /**
@@ -684,7 +684,7 @@ public class StringSubstitutor {
      * @return The StringLookup
      */
     public StringLookup getStringLookup() {
-        return this.variableResolver;
+        return variableResolver;
     }
 
     /**
@@ -769,7 +769,7 @@ public class StringSubstitutor {
      * @return The fail on undefined variable flag
      */
     public boolean isEnableUndefinedVariableException() {
-        return enableUndefinedVariableException;
+        return failOnUndefinedVariable;
     }
 
     /**
@@ -1182,7 +1182,7 @@ public class StringSubstitutor {
      * @return this, to enable chaining
      */
     public StringSubstitutor setEnableUndefinedVariableException(final boolean failOnUndefinedVariable) {
-        this.enableUndefinedVariableException = failOnUndefinedVariable;
+        this.failOnUndefinedVariable = failOnUndefinedVariable;
         return this;
     }
 
@@ -1190,11 +1190,11 @@ public class StringSubstitutor {
      * Sets the escape character. If this character is placed before a variable reference in the source text, this
      * variable will be ignored.
      *
-     * @param escapeCharacter the escape character (0 for disabling escaping)
+     * @param escapeChar the escape character (0 for disabling escaping)
      * @return this, to enable chaining
      */
-    public StringSubstitutor setEscapeChar(final char escapeCharacter) {
-        this.escapeChar = escapeCharacter;
+    public StringSubstitutor setEscapeChar(final char escapeChar) {
+        this.escapeChar = escapeChar;
         return this;
     }
 
@@ -1557,12 +1557,28 @@ public class StringSubstitutor {
      */
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("StringSubstitutor [disableSubstitutionInValues=").append(disableSubstitutionInValues).append(", enableSubstitutionInVariables=")
-                .append(enableSubstitutionInVariables).append(", enableUndefinedVariableException=").append(enableUndefinedVariableException)
-                .append(", escapeChar=").append(escapeChar).append(", prefixMatcher=").append(prefixMatcher).append(", preserveEscapes=")
-                .append(preserveEscapes).append(", suffixMatcher=").append(suffixMatcher).append(", valueDelimiterMatcher=").append(valueDelimiterMatcher)
-                .append(", variableResolver=").append(variableResolver).append("]");
-        return builder.toString();
+        // @formatter:off
+        return new StringBuilder()
+            .append("StringSubstitutor [disableSubstitutionInValues=")
+            .append(disableSubstitutionInValues)
+            .append(", enableSubstitutionInVariables=")
+            .append(enableSubstitutionInVariables)
+            .append(", enableUndefinedVariableException=")
+            .append(failOnUndefinedVariable)
+            .append(", escapeChar=")
+            .append(escapeChar)
+            .append(", prefixMatcher=")
+            .append(prefixMatcher)
+            .append(", preserveEscapes=")
+            .append(preserveEscapes)
+            .append(", suffixMatcher=")
+            .append(suffixMatcher)
+            .append(", valueDelimiterMatcher=")
+            .append(valueDelimiterMatcher)
+            .append(", variableResolver=")
+            .append(variableResolver)
+            .append("]")
+            .toString();
+        // @formatter:on
     }
 }
